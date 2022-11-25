@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: DefaultPassword123!
+      POSTGRES_DB: my-db
+    ports:
+      - "5432:5432"
+  # redis:
