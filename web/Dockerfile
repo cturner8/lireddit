@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14 as build
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -17,6 +17,6 @@ RUN yarn build
 
 ENV NODE_ENV production
 
-EXPOSE 4000
-CMD [ "node", "dist/index.js" ]
+EXPOSE 3000
+CMD [ "yarn", "start" ]
 USER node

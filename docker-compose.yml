@@ -1,0 +1,47 @@
+services:
+  cache:
+    image: redis:7
+    networks:
+      - lireddit
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: lireddit2
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lireddit
+  web:
+    build:
+      context: web
+      dockerfile: Dockerfile
+    depends_on:
+      - server
+    ports:
+      - 3000:3000
+    networks:
+      - lireddit
+  server:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+    ports:
+      - 4000:4000
+    networks:
+      - lireddit
+networks:
+  lireddit:
+volumes:
+  db-data:

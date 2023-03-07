@@ -28,7 +28,7 @@ const main = async () => {
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Post, User, Updoot],
   });
-  // await conn.runMigrations();
+  await conn.runMigrations();
 
   // await Post.delete({});
 
@@ -54,8 +54,8 @@ const main = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
         sameSite: "lax", // csrf
-        secure: __prod__, // cookie only works in https
-        domain: __prod__ ? ".codeponder.com" : undefined,
+        // secure: __prod__, // cookie only works in https
+        // domain: __prod__ ? ".codeponder.com" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
